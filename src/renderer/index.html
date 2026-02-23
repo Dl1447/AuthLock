@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuthLock - 版权隐形指纹保护工具</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="window-header" id="window-header">
+      <div class="header-left">
+        <img src="../../AuthLock.ico" class="logo" alt="AuthLock Logo">
+        <div class="header-title">
+          <h1 class="app-name">AuthLock</h1>
+          <span class="app-subtitle">Edit freely, credit stays.</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <button id="minimize-btn" class="window-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16" />
+          </svg>
+        </button>
+        <button id="maximize-btn" class="window-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3" />
+          </svg>
+        </button>
+        <button id="close-btn" class="window-btn close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="sidebar">
+        <nav class="nav-menu">
+          <button class="nav-item active" data-target="embed-section">
+            <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span>嵌入指纹</span>
+          </button>
+          <button class="nav-item" data-target="verify-section">
+            <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>验证指纹</span>
+          </button>
+          <button class="nav-item" data-target="template-section">
+            <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span>生成维权模板</span>
+          </button>
+        </nav>
+        <div class="sidebar-info">
+          <div class="info-card">
+            <h3 class="info-title">安全提示</h3>
+            <p class="info-text">本工具完全离线运行，所有处理均在本地完成，不会收集或上传任何数据。</p>
+          </div>
+          <div class="info-card">
+            <h3 class="info-title">关于</h3>
+            <p class="info-text">AuthLock © 2026 Geekline</p>
+            <a href="https://geekline.pages.dev" class="info-link" target="_blank">geekline.pages.dev</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div id="embed-section" class="section active">
+          <h2 class="section-title">嵌入指纹</h2>
+          <div class="content-card">
+            <div class="form-group">
+              <label class="form-label">选择图片</label>
+              <div id="embed-drop-area" class="drop-area">
+                <svg xmlns="http://www.w3.org/2000/svg" class="drop-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                <p class="drop-text">拖放图片到此处，或 <span id="embed-select-btn" class="drop-link">点击选择</span></p>
+                <p class="drop-hint">支持 PNG、JPG、JPEG、BMP 格式</p>
+              </div>
+              <div id="embed-image-preview" class="preview-container hidden">
+                <img id="embed-preview-img" class="preview-image" src="" alt="预览图片">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="author-input" class="form-label">作者信息</label>
+              <input type="text" id="author-input" class="form-input" placeholder="请输入作者姓名">
+            </div>
+            <div class="form-actions">
+              <button id="embed-btn" class="primary-btn">
+                <span>嵌入并保存</span>
+              </button>
+              <button id="embed-screenshot-btn" class="secondary-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span>截图嵌入</span>
+              </button>
+            </div>
+            <div id="embed-status" class="status-card hidden">
+              <h3 class="status-title">操作状态</h3>
+              <p id="embed-status-message" class="status-text"></p>
+            </div>
+          </div>
+        </div>
+
+        <div id="verify-section" class="section hidden">
+          <h2 class="section-title">验证指纹</h2>
+          <div class="content-card">
+            <div class="form-group">
+              <label class="form-label">选择图片</label>
+              <div id="verify-drop-area" class="drop-area">
+                <svg xmlns="http://www.w3.org/2000/svg" class="drop-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                <p class="drop-text">拖放图片到此处，或 <span id="verify-select-btn" class="drop-link">点击选择</span></p>
+                <p class="drop-hint">支持 PNG、JPG、JPEG、BMP 格式</p>
+              </div>
+              <div id="verify-image-preview" class="preview-container hidden">
+                <img id="verify-preview-img" class="preview-image" src="" alt="预览图片">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button id="verify-btn" class="primary-btn">
+                <span>验证指纹</span>
+              </button>
+              <button id="verify-screenshot-btn" class="secondary-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>截图验证</span>
+              </button>
+            </div>
+            <div id="verify-result" class="result-card hidden">
+              <div class="result-header">
+                <h3 class="result-title">验证结果</h3>
+                <span id="verify-status-badge" class="status-badge"></span>
+              </div>
+              <div class="result-content">
+                <div class="result-row">
+                  <span class="result-label">作者</span>
+                  <span id="verify-author" class="result-value"></span>
+                </div>
+                <div class="result-row">
+                  <span class="result-label">创建时间</span>
+                  <span id="verify-timestamp" class="result-value"></span>
+                </div>
+                <div class="result-group">
+                  <span class="result-label">原始特征哈希</span>
+                  <code id="verify-root-hash" class="result-code"></code>
+                </div>
+                <div class="result-group">
+                  <span class="result-label">当前特征哈希</span>
+                  <code id="verify-current-hash" class="result-code"></code>
+                </div>
+              </div>
+              <div class="result-actions">
+                <button id="generate-template-btn" class="secondary-btn">
+                  生成维权模板
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="template-section" class="section hidden">
+          <h2 class="section-title">生成维权模板</h2>
+          <div class="content-card">
+            <div class="form-group">
+              <label class="form-label">选择模板类型</label>
+              <div class="template-buttons">
+                <button class="template-btn" data-type="dmca">DMCA 国际投诉模板</button>
+                <button class="template-btn" data-type="chinese">中国版权投诉模板</button>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="template-author" class="form-label">作者信息</label>
+                <input type="text" id="template-author" class="form-input" placeholder="请输入作者姓名">
+              </div>
+              <div class="form-group">
+                <label for="template-email" class="form-label">邮箱</label>
+                <input type="email" id="template-email" class="form-input" placeholder="请输入邮箱地址">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="template-address" class="form-label">地址</label>
+                <input type="text" id="template-address" class="form-input" placeholder="请输入地址">
+              </div>
+              <div class="form-group">
+                <label for="template-phone" class="form-label">电话</label>
+                <input type="text" id="template-phone" class="form-input" placeholder="请输入电话号码">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button id="save-template-btn" class="primary-btn">
+                <span>生成并保存</span>
+              </button>
+            </div>
+            <div id="template-status" class="status-card hidden">
+              <h3 class="status-title">操作状态</h3>
+              <p id="template-status-message" class="status-text"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <span>处理中...</span>
+    </div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>
