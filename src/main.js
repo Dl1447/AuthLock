@@ -345,43 +345,19 @@ ipcMain.handle('capture-selected-area', async (event, area) => {
     // 使用主屏幕源
     const primarySource = sources[0];
     
-    // 创建一个临时窗口来显示屏幕内容
-    const captureWindow = new BrowserWindow({
-      width: displayWidth,
-      height: displayHeight,
-      frame: false,
-      show: false,
-      webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false
-      }
-    });
+    // 获取屏幕截图
+    const screenshot = primarySource.thumbnail;
     
-    // 加载HTML内容来显示屏幕捕获
-    captureWindow.loadURL(`data:text/html,<html><body style="margin: 0; padding: 0; overflow: hidden;"><img id="screen" style="width: 100%; height: 100%;" src="${primarySource.thumbnail.toDataURL()}"></body></html>`);
-    
-    // 等待窗口加载完成
-    await new Promise(resolve => {
-      captureWindow.once('ready-to-show', resolve);
-    });
-    
-    // 显示窗口瞬间以确保内容渲染
-    captureWindow.show();
-    await new Promise(resolve => setTimeout(resolve, 50));
-    
-    // 执行截图操作
-    const captureResult = await captureWindow.webContents.capturePage({
+    // 裁剪截图到选择的区域
+    const croppedScreenshot = screenshot.crop({
       x: safeX,
       y: safeY,
       width: safeWidth,
       height: safeHeight
     });
     
-    // 关闭捕获窗口
-    captureWindow.close();
-    
     // 将NativeImage转换为Buffer
-    const imageBuffer = captureResult.toPNG();
+    const imageBuffer = croppedScreenshot.toPNG();
     
     // 返回base64编码的图片数据
     return {
