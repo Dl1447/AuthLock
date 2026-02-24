@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron .",
-    "build": "electron-builder"
+    "build": "electron-builder --publish never"
   },
   "keywords": [
     "electron",
@@ -28,7 +28,8 @@
     "appId": "com.geekline.authlock",
     "productName": "AuthLock",
     "win": {
-      "target": ["nsis", "portable"]
+      "target": ["nsis", "portable"],
+      "icon": "AuthLock.ico"
     }
   }
 }
