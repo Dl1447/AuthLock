@@ -3,6 +3,7 @@ let embedImagePath = null;
 let verifyImagePath = null;
 let verifyResultData = null;
 let selectedTemplateType = 'dmca';
+let batchFiles = [];
 
 // 初始化函数
 function init() {
@@ -20,6 +21,12 @@ function init() {
   
   // 绑定维权模板相关事件
   bindTemplateEvents();
+  
+  // 绑定批量处理相关事件
+  bindBatchEvents();
+  
+  // 绑定设置相关事件
+  bindSettingsEvents();
 }
 
 // 绑定导航按钮事件
@@ -141,6 +148,34 @@ function bindEmbedEvents() {
     previewContainer.classList.remove('hidden');
   }
   
+  // 绑定水印选项事件
+  const visibleWatermarkCheckbox = document.getElementById('visible-watermark-checkbox');
+  const watermarkOptions = document.getElementById('watermark-options');
+  
+  visibleWatermarkCheckbox.addEventListener('change', () => {
+    if (visibleWatermarkCheckbox.checked) {
+      watermarkOptions.classList.remove('hidden');
+    } else {
+      watermarkOptions.classList.add('hidden');
+    }
+  });
+  
+  // 绑定水印大小滑块事件
+  const watermarkSize = document.getElementById('watermark-size');
+  const watermarkSizeValue = document.getElementById('watermark-size-value');
+  
+  watermarkSize.addEventListener('input', () => {
+    watermarkSizeValue.textContent = `${watermarkSize.value}px`;
+  });
+  
+  // 绑定水印透明度滑块事件
+  const watermarkOpacity = document.getElementById('watermark-opacity');
+  const watermarkOpacityValue = document.getElementById('watermark-opacity-value');
+  
+  watermarkOpacity.addEventListener('input', () => {
+    watermarkOpacityValue.textContent = `${Math.round(watermarkOpacity.value * 100)}%`;
+  });
+  
   // 嵌入按钮点击事件
   embedBtn.addEventListener('click', async () => {
     if (!embedImagePath) {
@@ -152,6 +187,22 @@ function bindEmbedEvents() {
     if (!author) {
       showEmbedStatus('请输入作者信息', false);
       return;
+    }
+    
+    // 检查是否选择了添加非隐形水印
+    const visibleWatermark = document.getElementById('visible-watermark-checkbox').checked;
+    
+    // 水印选项
+    let watermarkPosition = 'bottom-right';
+    let watermarkSizeValue = 24;
+    let watermarkColor = '#ffffff';
+    let watermarkOpacityValue = 0.8;
+    
+    if (visibleWatermark) {
+      watermarkPosition = document.getElementById('watermark-position').value;
+      watermarkSizeValue = parseInt(document.getElementById('watermark-size').value);
+      watermarkColor = document.getElementById('watermark-color').value;
+      watermarkOpacityValue = parseFloat(document.getElementById('watermark-opacity').value);
     }
     
     // 选择保存路径
@@ -172,8 +223,15 @@ function bindEmbedEvents() {
     showLoading(true);
     
     try {
-      // 调用嵌入指纹方法
-      const result = await authlock.embedFingerprint(embedImagePath, outputPath, author);
+      // 调用嵌入指纹方法，传递非隐形水印选项
+      const result = await authlock.embedFingerprint(embedImagePath, outputPath, {
+        author,
+        visibleWatermark,
+        watermarkPosition,
+        watermarkSize: watermarkSizeValue,
+        watermarkColor,
+        watermarkOpacity: watermarkOpacityValue
+      });
       
       if (result.success) {
         showEmbedStatus('指纹嵌入成功', true);
@@ -194,6 +252,22 @@ function bindEmbedEvents() {
     if (!author) {
       showEmbedStatus('请输入作者信息', false);
       return;
+    }
+    
+    // 检查是否选择了添加非隐形水印
+    const visibleWatermark = document.getElementById('visible-watermark-checkbox').checked;
+    
+    // 水印选项
+    let watermarkPosition = 'bottom-right';
+    let watermarkSizeValue = 24;
+    let watermarkColor = '#ffffff';
+    let watermarkOpacityValue = 0.8;
+    
+    if (visibleWatermark) {
+      watermarkPosition = document.getElementById('watermark-position').value;
+      watermarkSizeValue = parseInt(document.getElementById('watermark-size').value);
+      watermarkColor = document.getElementById('watermark-color').value;
+      watermarkOpacityValue = parseFloat(document.getElementById('watermark-opacity').value);
     }
     
     // 显示加载动画
@@ -221,8 +295,15 @@ function bindEmbedEvents() {
         
         const outputPath = saveResult.filePath;
         
-        // 嵌入指纹
-        const embedResult = await authlock.embedFingerprint(screenshotPath, outputPath, author);
+        // 嵌入指纹，传递非隐形水印选项
+        const embedResult = await authlock.embedFingerprint(screenshotPath, outputPath, {
+          author,
+          visibleWatermark,
+          watermarkPosition,
+          watermarkSize: watermarkSizeValue,
+          watermarkColor,
+          watermarkOpacity: watermarkOpacityValue
+        });
         
         if (embedResult.success) {
           showEmbedStatus('截图并嵌入指纹成功', true);
@@ -329,7 +410,7 @@ function bindVerifyEvents() {
   // 验证按钮点击事件
   verifyBtn.addEventListener('click', async () => {
     if (!verifyImagePath) {
-      alert('请先选择图片');
+      showVerifyStatus('请先选择图片', false);
       return;
     }
     
@@ -338,20 +419,59 @@ function bindVerifyEvents() {
     
     try {
       // 调用验证指纹方法
+      console.log('开始验证指纹:', verifyImagePath);
       const result = await authlock.verifyFingerprint(verifyImagePath);
+      console.log('验证结果:', result);
       
       if (result.success) {
+        console.log('验证成功，数据:', result.data);
         updateVerifyResult(result.data);
         verifyResultData = result.data;
       } else {
-        alert(`错误: ${result.message}`);
+        console.log('验证失败:', result.message);
+        showVerifyStatus(`错误: ${result.message}`, false);
       }
     } catch (error) {
-      alert(`错误: ${error.message}`);
+      console.error('验证异常:', error);
+      showVerifyStatus(`错误: ${error.message}`, false);
     } finally {
       showLoading(false);
     }
   });
+  
+  // 显示验证状态
+  function showVerifyStatus(message, isSuccess) {
+    // 确保验证结果区域存在
+    let statusContainer = document.getElementById('verify-status');
+    if (!statusContainer) {
+      // 创建状态容器
+      statusContainer = document.createElement('div');
+      statusContainer.id = 'verify-status';
+      statusContainer.className = 'status-card';
+      
+      // 创建状态标题
+      const statusTitle = document.createElement('h3');
+      statusTitle.className = 'status-title';
+      statusTitle.textContent = '操作状态';
+      statusContainer.appendChild(statusTitle);
+      
+      // 创建状态消息
+      const statusMessage = document.createElement('p');
+      statusMessage.id = 'verify-status-message';
+      statusMessage.className = 'status-text';
+      statusContainer.appendChild(statusMessage);
+      
+      // 插入到验证区域
+      const verifySection = document.getElementById('verify-section');
+      const contentCard = verifySection.querySelector('.content-card');
+      contentCard.appendChild(statusContainer);
+    }
+    
+    const statusMessage = document.getElementById('verify-status-message');
+    statusMessage.textContent = message;
+    statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
+    statusContainer.classList.remove('hidden');
+  }
   
   // 更新验证结果
   function updateVerifyResult(data) {
@@ -403,6 +523,38 @@ function bindVerifyEvents() {
     // 填充作者信息
     if (verifyResultData) {
       document.getElementById('template-author').value = verifyResultData.author;
+    }
+  });
+  
+  // 截图验证按钮点击事件
+  const verifyScreenshotBtn = document.getElementById('verify-screenshot-btn');
+  verifyScreenshotBtn.addEventListener('click', async () => {
+    // 显示加载动画
+    showLoading(true);
+    
+    try {
+      // 调用截图方法
+      const screenshotResult = await authlock.takeScreenshot();
+      
+      if (screenshotResult.success) {
+        const screenshotPath = screenshotResult.filePath;
+        
+        // 验证截图
+        const verifyResult = await authlock.verifyFingerprint(screenshotPath);
+        
+        if (verifyResult.success) {
+          updateVerifyResult(verifyResult.data);
+          verifyResultData = verifyResult.data;
+        } else {
+          showVerifyStatus(`验证失败: ${verifyResult.message}`, false);
+        }
+      } else {
+        showVerifyStatus(`截图失败: ${screenshotResult.message}`, false);
+      }
+    } catch (error) {
+      showVerifyStatus(`错误: ${error.message}`, false);
+    } finally {
+      showLoading(false);
     }
   });
 }
@@ -484,6 +636,328 @@ function bindTemplateEvents() {
     statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
     statusContainer.classList.remove('hidden');
   }
+}
+
+// 绑定批量处理相关事件
+function bindBatchEvents() {
+  const dropArea = document.getElementById('batch-drop-area');
+  const selectBtn = document.getElementById('batch-select-btn');
+  const processBtn = document.getElementById('batch-process-btn');
+  const clearBtn = document.getElementById('batch-clear-btn');
+  
+  // 拖放事件
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, preventDefaults, false);
+  });
+  
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropArea.addEventListener(eventName, highlight, false);
+  });
+  
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, unhighlight, false);
+  });
+  
+  function highlight() {
+    dropArea.classList.add('drag-over');
+  }
+  
+  function unhighlight() {
+    dropArea.classList.remove('drag-over');
+  }
+  
+  dropArea.addEventListener('drop', handleBatchDrop, false);
+  
+  function handleBatchDrop(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    
+    if (files.length > 0) {
+      handleBatchFiles(Array.from(files));
+    }
+  }
+  
+  // 选择文件按钮点击事件
+  selectBtn.addEventListener('click', async () => {
+    const result = await authlock.selectFile([
+      {
+        name: 'Images',
+        extensions: ['png', 'jpg', 'jpeg', 'bmp']
+      }
+    ], ['openFile', 'multiSelections']);
+    
+    if (result.success && result.filePaths.length > 0) {
+      batchFiles = result.filePaths;
+      updateBatchFileList();
+    }
+  });
+  
+  // 处理批量文件
+  function handleBatchFiles(files) {
+    const imageFiles = files.filter(file => file.type.startsWith('image/'));
+    const imagePaths = imageFiles.map(file => file.path);
+    batchFiles = [...batchFiles, ...imagePaths];
+    updateBatchFileList();
+  }
+  
+  // 更新批量文件列表
+  function updateBatchFileList() {
+    const fileListContainer = document.getElementById('batch-file-list');
+    const filesContainer = document.getElementById('batch-files');
+    
+    fileListContainer.innerHTML = '';
+    
+    batchFiles.forEach((filePath, index) => {
+      const fileName = path.basename(filePath);
+      const fileItem = document.createElement('div');
+      fileItem.className = 'batch-file-item';
+      fileItem.innerHTML = `
+        <span class="batch-file-name">${fileName}</span>
+        <button class="batch-file-remove" data-index="${index}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"/>
+            <path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      `;
+      fileListContainer.appendChild(fileItem);
+    });
+    
+    // 绑定移除文件事件
+    document.querySelectorAll('.batch-file-remove').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const index = parseInt(e.currentTarget.dataset.index);
+        batchFiles.splice(index, 1);
+        updateBatchFileList();
+      });
+    });
+    
+    if (batchFiles.length > 0) {
+      filesContainer.classList.remove('hidden');
+    } else {
+      filesContainer.classList.add('hidden');
+    }
+  }
+  
+  // 清除所有文件
+  clearBtn.addEventListener('click', () => {
+    batchFiles = [];
+    updateBatchFileList();
+  });
+  
+  // 批量处理按钮点击事件
+  processBtn.addEventListener('click', async () => {
+    if (batchFiles.length === 0) {
+      showBatchStatus('请先选择图片文件', false);
+      return;
+    }
+    
+    const author = document.getElementById('batch-author').value;
+    if (!author) {
+      showBatchStatus('请输入作者信息', false);
+      return;
+    }
+    
+    // 检查是否选择了添加非隐形水印
+    const visibleWatermark = document.getElementById('batch-watermark-checkbox').checked;
+    
+    // 选择保存目录
+    const saveResult = await authlock.selectFile([], ['openDirectory']);
+    
+    if (!saveResult.success || !saveResult.filePaths.length) {
+      return;
+    }
+    
+    const outputDir = saveResult.filePaths[0];
+    
+    // 显示加载动画和进度
+    showLoading(true);
+    showBatchProgress(0, `准备处理 ${batchFiles.length} 个文件...`);
+    
+    try {
+      let successCount = 0;
+      let failCount = 0;
+      
+      for (let i = 0; i < batchFiles.length; i++) {
+        const inputPath = batchFiles[i];
+        const fileName = path.basename(inputPath);
+        const outputPath = path.join(outputDir, fileName.replace(/\.[^/.]+$/, '') + '_watermarked.png');
+        
+        // 更新进度
+        const progress = Math.round((i / batchFiles.length) * 100);
+        showBatchProgress(progress, `处理中: ${fileName} (${i + 1}/${batchFiles.length})`);
+        
+        // 调用嵌入指纹方法
+        const result = await authlock.embedFingerprint(inputPath, outputPath, {
+          author,
+          visibleWatermark
+        });
+        
+        if (result.success) {
+          successCount++;
+        } else {
+          failCount++;
+          console.error(`处理失败 ${fileName}: ${result.message}`);
+        }
+      }
+      
+      // 完成处理
+      showBatchProgress(100, `处理完成: 成功 ${successCount}, 失败 ${failCount}`);
+      showBatchStatus(`批量处理完成: 成功 ${successCount}, 失败 ${failCount}`, successCount > 0);
+    } catch (error) {
+      showBatchStatus(`批量处理失败: ${error.message}`, false);
+    } finally {
+      showLoading(false);
+    }
+  });
+  
+  // 显示批量处理状态
+  function showBatchStatus(message, isSuccess) {
+    const statusContainer = document.getElementById('batch-status');
+    const statusMessage = document.getElementById('batch-status-message');
+    
+    statusMessage.textContent = message;
+    statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
+    statusContainer.classList.remove('hidden');
+  }
+  
+  // 显示批量处理进度
+  function showBatchProgress(progress, message) {
+    const progressContainer = document.getElementById('batch-progress');
+    const progressBar = document.getElementById('batch-progress-bar');
+    const progressText = document.getElementById('batch-progress-text');
+    
+    progressBar.style.width = `${progress}%`;
+    progressText.textContent = message;
+    progressContainer.classList.remove('hidden');
+  }
+}
+
+// 绑定设置相关事件
+function bindSettingsEvents() {
+  const saveSettingsBtn = document.getElementById('save-settings-btn');
+  const resetSettingsBtn = document.getElementById('reset-settings-btn');
+  const themeSelect = document.getElementById('theme-select');
+  const accentColor = document.getElementById('accent-color');
+  const outputQuality = document.getElementById('output-quality');
+  const outputQualityValue = document.getElementById('output-quality-value');
+  
+  // 输出质量滑块事件
+  outputQuality.addEventListener('input', () => {
+    outputQualityValue.textContent = `${outputQuality.value}%`;
+  });
+  
+  // 应用主题
+  function applyTheme(theme) {
+    const appContainer = document.querySelector('.app-container');
+    const elements = {
+      containers: document.querySelectorAll('.app-container, .window-header, .sidebar, .content-card, .drop-area, .batch-files'),
+      inputs: document.querySelectorAll('.form-input, .form-select, .form-textarea'),
+      buttons: document.querySelectorAll('.primary-btn, .secondary-btn, .nav-item'),
+      texts: document.querySelectorAll('.app-name, .section-title, .form-label, .checkbox-label')
+    };
+    
+    if (theme === 'light') {
+      // 浅色主题
+      document.body.style.backgroundColor = '#f8fafc';
+      document.body.style.color = '#1e293b';
+      
+      // 容器元素
+      elements.containers.forEach(el => {
+        el.style.background = 'linear-gradient(135deg, #ffffff, #f1f5f9)';
+        el.style.borderColor = 'rgba(0, 0, 0, 0.1)';
+        el.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+      });
+      
+      // 输入元素
+      elements.inputs.forEach(el => {
+        el.style.background = 'linear-gradient(135deg, #ffffff, #f8fafc)';
+        el.style.borderColor = 'rgba(0, 0, 0, 0.1)';
+        el.style.color = '#1e293b';
+      });
+      
+      // 文本元素
+      elements.texts.forEach(el => {
+        el.style.color = '#1e293b';
+      });
+    } else {
+      // 深色主题
+      document.body.style.backgroundColor = '#0f172a';
+      document.body.style.color = '#ffffff';
+      
+      // 容器元素
+      elements.containers.forEach(el => {
+        el.style.background = 'linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.9))';
+        el.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+        el.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+      });
+      
+      // 输入元素
+      elements.inputs.forEach(el => {
+        el.style.background = 'linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.9))';
+        el.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+        el.style.color = '#ffffff';
+      });
+      
+      // 文本元素
+      elements.texts.forEach(el => {
+        el.style.color = '#ffffff';
+      });
+    }
+  }
+  
+  // 保存设置按钮点击事件
+  saveSettingsBtn.addEventListener('click', () => {
+    const theme = themeSelect.value;
+    const accent = accentColor.value;
+    const quality = outputQuality.value;
+    const autoEncrypt = document.getElementById('auto-encrypt-checkbox').checked;
+    const autoTamper = document.getElementById('auto-tamper-checkbox').checked;
+    const defaultOutput = document.getElementById('default-output').value;
+    
+    // 应用主题
+    applyTheme(theme);
+    
+    // 保存设置（这里可以实现持久化存储）
+    console.log('保存设置:', {
+      theme,
+      accent,
+      quality,
+      autoEncrypt,
+      autoTamper,
+      defaultOutput
+    });
+    
+    showSettingsStatus('设置保存成功', true);
+  });
+  
+  // 显示设置状态
+  function showSettingsStatus(message, isSuccess) {
+    const statusContainer = document.getElementById('settings-status');
+    const statusMessage = document.getElementById('settings-status-message');
+    
+    statusMessage.textContent = message;
+    statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
+    statusContainer.classList.remove('hidden');
+  }
+  
+  // 重置设置按钮点击事件
+  resetSettingsBtn.addEventListener('click', () => {
+    themeSelect.value = 'dark';
+    accentColor.value = '#3b82f6';
+    outputQuality.value = '90';
+    outputQualityValue.textContent = '90%';
+    document.getElementById('auto-encrypt-checkbox').checked = true;
+    document.getElementById('auto-tamper-checkbox').checked = true;
+    document.getElementById('default-output').value = 'png';
+    
+    showSettingsStatus('设置已重置为默认值', true);
+  });
 }
 
 // 显示/隐藏加载动画

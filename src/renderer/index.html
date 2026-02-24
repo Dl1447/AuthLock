@@ -10,27 +10,27 @@
 <body>
   <div class="app-container">
     <div class="window-header" id="window-header">
-      <div class="header-left">
+      <div class="header-left" id="window-drag-area">
         <img src="../../AuthLock.ico" class="logo" alt="AuthLock Logo">
         <div class="header-title">
           <h1 class="app-name">AuthLock</h1>
-          <span class="app-subtitle">Edit freely, credit stays.</span>
+          <span class="app-subtitle">版权保护工具</span>
         </div>
       </div>
       <div class="header-right">
         <button id="minimize-btn" class="window-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16" />
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12h16" />
           </svg>
         </button>
         <button id="maximize-btn" class="window-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3" />
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3" />
           </svg>
         </button>
         <button id="close-btn" class="window-btn close">
-          <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
@@ -40,22 +40,38 @@
       <div class="sidebar">
         <nav class="nav-menu">
           <button class="nav-item active" data-target="embed-section">
-            <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             <span>嵌入指纹</span>
           </button>
           <button class="nav-item" data-target="verify-section">
-            <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span>验证指纹</span>
           </button>
           <button class="nav-item" data-target="template-section">
-            <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            <span>生成维权模板</span>
+            <span>维权模板</span>
+          </button>
+          <button class="nav-item" data-target="batch-section">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 7h-4V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v3H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z" />
+              <path d="M16 17H8" />
+              <path d="M16 13H8" />
+              <path d="M10 7V4" />
+            </svg>
+            <span>批量处理</span>
+          </button>
+          <button class="nav-item" data-target="settings-section">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+            </svg>
+            <span>设置</span>
           </button>
         </nav>
         <div class="sidebar-info">
@@ -86,11 +102,65 @@
               </div>
               <div id="embed-image-preview" class="preview-container hidden">
                 <img id="embed-preview-img" class="preview-image" src="" alt="预览图片">
+                <button id="embed-remove-btn" class="remove-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
               </div>
             </div>
             <div class="form-group">
               <label for="author-input" class="form-label">作者信息</label>
               <input type="text" id="author-input" class="form-input" placeholder="请输入作者姓名">
+            </div>
+            <div class="form-group">
+              <label class="form-label">水印选项</label>
+              <div class="checkbox-group">
+                <input type="checkbox" id="visible-watermark-checkbox" class="form-checkbox">
+                <label for="visible-watermark-checkbox" class="checkbox-label">添加非隐形水印</label>
+              </div>
+              <div id="watermark-options" class="watermark-options hidden">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="watermark-position" class="form-label">水印位置</label>
+                    <select id="watermark-position" class="form-select">
+                      <option value="bottom-right">右下角</option>
+                      <option value="bottom-left">左下角</option>
+                      <option value="top-right">右上角</option>
+                      <option value="top-left">左上角</option>
+                      <option value="center">中心</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="watermark-size" class="form-label">水印大小</label>
+                    <input type="range" id="watermark-size" class="form-range" min="12" max="48" value="24">
+                    <span id="watermark-size-value" class="range-value">24px</span>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="watermark-color" class="form-label">水印颜色</label>
+                    <input type="color" id="watermark-color" class="form-color" value="#ffffff">
+                  </div>
+                  <div class="form-group">
+                    <label for="watermark-opacity" class="form-label">水印透明度</label>
+                    <input type="range" id="watermark-opacity" class="form-range" min="0.1" max="1" step="0.1" value="0.8">
+                    <span id="watermark-opacity-value" class="range-value">80%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">安全性选项</label>
+              <div class="checkbox-group">
+                <input type="checkbox" id="encrypt-checkbox" class="form-checkbox" checked>
+                <label for="encrypt-checkbox" class="checkbox-label">加密指纹数据</label>
+              </div>
+              <div class="checkbox-group">
+                <input type="checkbox" id="tamper-checkbox" class="form-checkbox" checked>
+                <label for="tamper-checkbox" class="checkbox-label">防篡改保护</label>
+              </div>
             </div>
             <div class="form-actions">
               <button id="embed-btn" class="primary-btn">
@@ -106,6 +176,9 @@
             <div id="embed-status" class="status-card hidden">
               <h3 class="status-title">操作状态</h3>
               <p id="embed-status-message" class="status-text"></p>
+              <div class="status-actions">
+                <button class="status-close-btn">关闭</button>
+              </div>
             </div>
           </div>
         </div>
@@ -124,6 +197,12 @@
               </div>
               <div id="verify-image-preview" class="preview-container hidden">
                 <img id="verify-preview-img" class="preview-image" src="" alt="预览图片">
+                <button id="verify-remove-btn" class="remove-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
               </div>
             </div>
             <div class="form-actions">
@@ -159,11 +238,25 @@
                   <span class="result-label">当前特征哈希</span>
                   <code id="verify-current-hash" class="result-code"></code>
                 </div>
+                <div class="result-group">
+                  <span class="result-label">状态</span>
+                  <span id="verify-status" class="result-status"></span>
+                </div>
               </div>
               <div class="result-actions">
                 <button id="generate-template-btn" class="secondary-btn">
                   生成维权模板
                 </button>
+                <button id="save-fingerprint-btn" class="secondary-btn">
+                  保存指纹信息
+                </button>
+              </div>
+            </div>
+            <div id="verify-status" class="status-card hidden">
+              <h3 class="status-title">操作状态</h3>
+              <p id="verify-status-message" class="status-text"></p>
+              <div class="status-actions">
+                <button class="status-close-btn">关闭</button>
               </div>
             </div>
           </div>
@@ -175,7 +268,7 @@
             <div class="form-group">
               <label class="form-label">选择模板类型</label>
               <div class="template-buttons">
-                <button class="template-btn" data-type="dmca">DMCA 国际投诉模板</button>
+                <button class="template-btn active" data-type="dmca">DMCA 国际投诉模板</button>
                 <button class="template-btn" data-type="chinese">中国版权投诉模板</button>
               </div>
             </div>
@@ -199,6 +292,10 @@
                 <input type="text" id="template-phone" class="form-input" placeholder="请输入电话号码">
               </div>
             </div>
+            <div class="form-group">
+              <label for="template-content" class="form-label">侵权描述</label>
+              <textarea id="template-content" class="form-textarea" placeholder="请描述侵权情况..."></textarea>
+            </div>
             <div class="form-actions">
               <button id="save-template-btn" class="primary-btn">
                 <span>生成并保存</span>
@@ -207,6 +304,134 @@
             <div id="template-status" class="status-card hidden">
               <h3 class="status-title">操作状态</h3>
               <p id="template-status-message" class="status-text"></p>
+              <div class="status-actions">
+                <button class="status-close-btn">关闭</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="batch-section" class="section hidden">
+          <h2 class="section-title">批量处理</h2>
+          <div class="content-card">
+            <div class="form-group">
+              <label class="form-label">选择图片</label>
+              <div id="batch-drop-area" class="drop-area">
+                <svg xmlns="http://www.w3.org/2000/svg" class="drop-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7h-4V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v3H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z" />
+                  <path d="M16 17H8" />
+                  <path d="M16 13H8" />
+                  <path d="M10 7V4" />
+                </svg>
+                <p class="drop-text">拖放多张图片到此处，或 <span id="batch-select-btn" class="drop-link">点击选择</span></p>
+                <p class="drop-hint">支持 PNG、JPG、JPEG、BMP 格式</p>
+              </div>
+              <div id="batch-files" class="batch-files hidden">
+                <h4 class="batch-title">已选择的文件</h4>
+                <div id="batch-file-list" class="batch-file-list"></div>
+                <button id="batch-clear-btn" class="batch-clear-btn">
+                  清除所有文件
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="batch-author" class="form-label">作者信息</label>
+              <input type="text" id="batch-author" class="form-input" placeholder="请输入作者姓名">
+            </div>
+            <div class="form-group">
+              <label class="form-label">处理选项</label>
+              <div class="checkbox-group">
+                <input type="checkbox" id="batch-watermark-checkbox" class="form-checkbox">
+                <label for="batch-watermark-checkbox" class="checkbox-label">添加非隐形水印</label>
+              </div>
+              <div class="checkbox-group">
+                <input type="checkbox" id="batch-encrypt-checkbox" class="form-checkbox" checked>
+                <label for="batch-encrypt-checkbox" class="checkbox-label">加密指纹数据</label>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button id="batch-process-btn" class="primary-btn">
+                <span>开始批量处理</span>
+              </button>
+            </div>
+            <div id="batch-progress" class="progress-card hidden">
+              <h3 class="progress-title">处理进度</h3>
+              <div class="progress-bar">
+                <div id="batch-progress-bar" class="progress-fill" style="width: 0%"></div>
+              </div>
+              <p id="batch-progress-text" class="progress-text">准备开始...</p>
+            </div>
+            <div id="batch-status" class="status-card hidden">
+              <h3 class="status-title">操作状态</h3>
+              <p id="batch-status-message" class="status-text"></p>
+              <div class="status-actions">
+                <button class="status-close-btn">关闭</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="settings-section" class="section hidden">
+          <h2 class="section-title">设置</h2>
+          <div class="content-card">
+            <div class="form-group">
+              <label class="form-label">外观</label>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="theme-select" class="form-label">主题</label>
+                  <select id="theme-select" class="form-select">
+                    <option value="dark">深色</option>
+                    <option value="light">浅色</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="accent-color" class="form-label">强调色</label>
+                  <input type="color" id="accent-color" class="form-color" value="#3b82f6">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">安全设置</label>
+              <div class="checkbox-group">
+                <input type="checkbox" id="auto-encrypt-checkbox" class="form-checkbox" checked>
+                <label for="auto-encrypt-checkbox" class="checkbox-label">自动加密指纹数据</label>
+              </div>
+              <div class="checkbox-group">
+                <input type="checkbox" id="auto-tamper-checkbox" class="form-checkbox" checked>
+                <label for="auto-tamper-checkbox" class="checkbox-label">自动启用防篡改保护</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">文件设置</label>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="default-output" class="form-label">默认输出格式</label>
+                  <select id="default-output" class="form-select">
+                    <option value="png">PNG</option>
+                    <option value="jpg">JPG</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="output-quality" class="form-label">输出质量</label>
+                  <input type="range" id="output-quality" class="form-range" min="50" max="100" value="90">
+                  <span id="output-quality-value" class="range-value">90%</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button id="save-settings-btn" class="primary-btn">
+                保存设置
+              </button>
+              <button id="reset-settings-btn" class="secondary-btn">
+                重置为默认设置
+              </button>
+            </div>
+            <div id="settings-status" class="status-card hidden">
+              <h3 class="status-title">操作状态</h3>
+              <p id="settings-status-message" class="status-text"></p>
+              <div class="status-actions">
+                <button class="status-close-btn">关闭</button>
+              </div>
             </div>
           </div>
         </div>

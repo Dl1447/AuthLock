@@ -5,7 +5,8 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "dev": "electron ."
+    "dev": "electron .",
+    "build": "electron-builder"
   },
   "keywords": [
     "electron",
@@ -18,8 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "electron": "^30.0.0",
-    "sharp": "^0.33.4",
-    "electron-screenshot": "^1.2.0"
+    "sharp": "^0.33.4"
   },
   "build": {
     "appId": "com.geekline.authlock",

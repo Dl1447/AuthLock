@@ -3,6 +3,9 @@ const path = require('path');
 const fs = require('fs');
 const { DesktopCapturer, sources } = desktopCapturer;
 
+// 全局变量用于存储屏幕截图
+let globalScreenScreenshot = null;
+
 const appDataPath = path.join(__dirname, '..', 'appData');
 if (!fs.existsSync(appDataPath)) {
   fs.mkdirSync(appDataPath, { recursive: true });
@@ -104,9 +107,9 @@ app.on('activate', function () {
   if (mainWindow === null) createWindow();
 });
 
-ipcMain.handle('embed-fingerprint', async (event, inputPath, outputPath, author) => {
+ipcMain.handle('embed-fingerprint', async (event, inputPath, outputPath, payload) => {
   try {
-    const result = await embedFingerprint(inputPath, outputPath, { author });
+    const result = await embedFingerprint(inputPath, outputPath, payload);
     return result;
   } catch (error) {
     console.error('Error embedding fingerprint:', error);
@@ -216,19 +219,26 @@ ipcMain.handle('take-screenshot', async () => {
     // 等待窗口完全隐藏
     await new Promise(resolve => setTimeout(resolve, 100));
     
-    // 获取所有屏幕源
-    const sources = await desktopCapturer.getSources({ types: ['screen'] });
+    // 获取屏幕尺寸
+    const display = screen.getPrimaryDisplay();
+    const { width, height } = display.bounds;
+    
+    // 获取屏幕截图（在显示截图窗口之前）
+    const sources = await desktopCapturer.getSources({ 
+      types: ['screen'],
+      thumbnailSize: {
+        width: width,
+        height: height
+      }
+    });
     
     if (sources.length === 0) {
       throw new Error('No screen sources found');
     }
     
-    // 选择主屏幕
+    // 使用主屏幕源
     const primarySource = sources[0];
-    
-    // 获取屏幕尺寸
-    const display = screen.getPrimaryDisplay();
-    const { width, height } = display.bounds;
+    globalScreenScreenshot = primarySource.thumbnail;
     
     // 创建一个临时窗口用于截图
     const screenshotWindow = new BrowserWindow({
@@ -239,7 +249,13 @@ ipcMain.handle('take-screenshot', async () => {
       transparent: true,
       fullscreen: true,
       skipTaskbar: true,
-      alwaysOnTop: true
+      alwaysOnTop: true,
+      focusable: true,
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false,
+        backgroundThrottling: false
+      }
     });
     
     // 加载截图界面
@@ -252,25 +268,36 @@ ipcMain.handle('take-screenshot', async () => {
     
     // 显示截图窗口
     screenshotWindow.show();
+    // 确保窗口获得焦点
+    screenshotWindow.focus();
     
     // 等待用户完成截图
     return new Promise((resolve, reject) => {
+      let screenshotHandled = false;
+      
       // 监听截图完成事件
-      ipcMain.once('screenshot-completed', (event, screenshotPath) => {
-        // 标记窗口已处理
-        screenshotWindow._screenshotHandled = true;
-        // 关闭截图窗口
-        screenshotWindow.close();
-        // 重新显示主窗口
-        mainWindow.show();
-        // 返回截图路径
-        resolve({ success: true, filePath: screenshotPath });
+      ipcMain.once('screenshot-completed', async (event, screenshotPath) => {
+        try {
+          // 标记窗口已处理
+          screenshotHandled = true;
+          // 关闭截图窗口
+          screenshotWindow.close();
+          // 重新显示主窗口
+          mainWindow.show();
+          // 返回截图路径
+          resolve({ success: true, filePath: screenshotPath });
+        } catch (error) {
+          console.error('Error completing screenshot:', error);
+          // 确保主窗口重新显示
+          mainWindow.show();
+          resolve({ success: false, message: error.message });
+        }
       });
       
       // 监听截图取消事件
       ipcMain.once('screenshot-canceled', () => {
         // 标记窗口已处理
-        screenshotWindow._screenshotHandled = true;
+        screenshotHandled = true;
         // 关闭截图窗口
         screenshotWindow.close();
         // 重新显示主窗口
@@ -284,13 +311,10 @@ ipcMain.handle('take-screenshot', async () => {
         // 重新显示主窗口
         mainWindow.show();
         // 如果没有其他事件触发，返回错误
-        if (!screenshotWindow._screenshotHandled) {
+        if (!screenshotHandled) {
           reject(new Error('Screenshot window closed unexpectedly'));
         }
       });
-      
-      // 标记窗口已处理
-      screenshotWindow._screenshotHandled = false;
     });
   } catch (error) {
     console.error('Error taking screenshot:', error);
@@ -329,24 +353,13 @@ ipcMain.handle('capture-selected-area', async (event, area) => {
       throw new Error('Invalid screenshot area');
     }
     
-    // 获取所有屏幕源
-    const sources = await desktopCapturer.getSources({ 
-      types: ['screen'],
-      thumbnailSize: {
-        width: displayWidth,
-        height: displayHeight
-      }
-    });
-    
-    if (sources.length === 0) {
-      throw new Error('No screen sources found');
+    // 检查是否有预捕获的屏幕截图
+    if (!globalScreenScreenshot) {
+      throw new Error('No screen screenshot available');
     }
     
-    // 使用主屏幕源
-    const primarySource = sources[0];
-    
-    // 获取屏幕截图
-    const screenshot = primarySource.thumbnail;
+    // 使用预捕获的屏幕截图
+    const screenshot = globalScreenScreenshot;
     
     // 裁剪截图到选择的区域
     const croppedScreenshot = screenshot.crop({
@@ -358,6 +371,9 @@ ipcMain.handle('capture-selected-area', async (event, area) => {
     
     // 将NativeImage转换为Buffer
     const imageBuffer = croppedScreenshot.toPNG();
+    
+    // 清除全局截图变量
+    globalScreenScreenshot = null;
     
     // 返回base64编码的图片数据
     return {

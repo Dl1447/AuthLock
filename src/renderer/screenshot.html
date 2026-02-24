@@ -23,15 +23,15 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 9999;
+      background-color: rgba(0, 0, 0, 0.3);
+      z-index: 1;
     }
     
     #screenshot-area {
       position: absolute;
       border: 2px solid #3b82f6;
       background-color: rgba(255, 255, 255, 0.1);
-      cursor: move;
+      z-index: 2;
     }
     
     #screenshot-controls {
@@ -44,7 +44,7 @@
       padding: 10px;
       background-color: rgba(0, 0, 0, 0.8);
       border-radius: 8px;
-      z-index: 10000;
+      z-index: 3;
     }
     
     .control-btn {
@@ -169,15 +169,6 @@
       }
       
       try {
-        // 创建临时文件路径
-        const tempDir = path.join(__dirname, '..', '..', 'appData', 'temp');
-        if (!fs.existsSync(tempDir)) {
-          fs.mkdirSync(tempDir, { recursive: true });
-        }
-        
-        const timestamp = Date.now();
-        const screenshotPath = path.join(tempDir, `screenshot_${timestamp}.png`);
-        
         // 通知主进程执行截图操作
         const result = await ipcRenderer.invoke('capture-selected-area', {
           x: rect.left,
@@ -187,6 +178,15 @@
         });
         
         if (result.success) {
+          // 创建临时文件路径
+          const tempDir = path.join(process.cwd(), 'appData', 'temp');
+          if (!fs.existsSync(tempDir)) {
+            fs.mkdirSync(tempDir, { recursive: true });
+          }
+          
+          const timestamp = Date.now();
+          const screenshotPath = path.join(tempDir, `screenshot_${timestamp}.png`);
+          
           // 保存截图到文件
           fs.writeFileSync(screenshotPath, Buffer.from(result.imageData, 'base64'));
           
