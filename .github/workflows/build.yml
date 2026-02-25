@@ -9,6 +9,10 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    env:
+      ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES: true
+      ELECTRON_BUILDER_CACHE: ${{ github.workspace }}/.cache/electron-builder
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     steps:
     - uses: actions/checkout@v3
