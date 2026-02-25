@@ -29,7 +29,7 @@
     "productName": "AuthLock",
     "win": {
       "target": ["nsis", "portable"],
-      "icon": "assets/AuthLock.ico"
+      "icon": "assets/logo.ico"
     }
   }
 }
