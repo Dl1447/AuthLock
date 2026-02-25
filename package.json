@@ -27,6 +27,12 @@
   "build": {
     "appId": "com.geekline.authlock",
     "productName": "AuthLock",
+    "publish": [
+      {
+        "provider": "github",
+        "releaseType": "release"
+      }
+    ],
     "win": {
       "target": ["nsis", "portable"],
       "icon": "assets/logo.ico"
