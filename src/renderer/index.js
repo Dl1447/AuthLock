@@ -1,3 +1,6 @@
+// 导入模块
+const path = require('path');
+
 // 全局变量
 let embedImagePath = null;
 let verifyImagePath = null;
@@ -324,10 +327,18 @@ function bindEmbedEvents() {
   function showEmbedStatus(message, isSuccess) {
     const statusContainer = document.getElementById('embed-status');
     const statusMessage = document.getElementById('embed-status-message');
+    const closeBtn = statusContainer.querySelector('.close-btn');
     
     statusMessage.textContent = message;
     statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
     statusContainer.classList.remove('hidden');
+    
+    // 绑定关闭按钮事件
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        statusContainer.classList.add('hidden');
+      });
+    }
   }
 }
 
@@ -460,6 +471,15 @@ function bindVerifyEvents() {
       statusMessage.id = 'verify-status-message';
       statusMessage.className = 'status-text';
       statusContainer.appendChild(statusMessage);
+      
+      // 创建关闭按钮
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'close-btn';
+      closeBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`;
+      closeBtn.addEventListener('click', () => {
+        statusContainer.classList.add('hidden');
+      });
+      statusContainer.appendChild(closeBtn);
       
       // 插入到验证区域
       const verifySection = document.getElementById('verify-section');
@@ -631,10 +651,18 @@ function bindTemplateEvents() {
   function showTemplateStatus(message, isSuccess) {
     const statusContainer = document.getElementById('template-status');
     const statusMessage = document.getElementById('template-status-message');
+    const closeBtn = statusContainer.querySelector('.close-btn');
     
     statusMessage.textContent = message;
     statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
     statusContainer.classList.remove('hidden');
+    
+    // 绑定关闭按钮事件
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        statusContainer.classList.add('hidden');
+      });
+    }
   }
 }
 
@@ -820,10 +848,18 @@ function bindBatchEvents() {
   function showBatchStatus(message, isSuccess) {
     const statusContainer = document.getElementById('batch-status');
     const statusMessage = document.getElementById('batch-status-message');
+    const closeBtn = statusContainer.querySelector('.close-btn');
     
     statusMessage.textContent = message;
     statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
     statusContainer.classList.remove('hidden');
+    
+    // 绑定关闭按钮事件
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        statusContainer.classList.add('hidden');
+      });
+    }
   }
   
   // 显示批量处理进度
@@ -940,10 +976,18 @@ function bindSettingsEvents() {
   function showSettingsStatus(message, isSuccess) {
     const statusContainer = document.getElementById('settings-status');
     const statusMessage = document.getElementById('settings-status-message');
+    const closeBtn = statusContainer.querySelector('.close-btn');
     
     statusMessage.textContent = message;
     statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
     statusContainer.classList.remove('hidden');
+    
+    // 绑定关闭按钮事件
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        statusContainer.classList.add('hidden');
+      });
+    }
   }
   
   // 重置设置按钮点击事件

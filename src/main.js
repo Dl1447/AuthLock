@@ -30,7 +30,7 @@ function createWindow() {
     closable: true,
     show: false,
     backgroundColor: '#00000000',
-    icon: path.join(__dirname, '..', 'AuthLock.ico'),
+    icon: path.join(__dirname, '..', 'assets', 'logo.ico'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
