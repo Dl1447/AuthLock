@@ -28,7 +28,8 @@
     "appId": "com.geekline.authlock",
     "productName": "AuthLock",
     "win": {
-      "target": ["nsis", "portable"]
+      "target": ["nsis", "portable"],
+      "icon": "AuthLock.ico"
     }
   }
 }
