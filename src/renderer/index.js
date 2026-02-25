@@ -208,13 +208,16 @@ function bindEmbedEvents() {
       watermarkOpacityValue = parseFloat(document.getElementById('watermark-opacity').value);
     }
     
+    // 获取默认输出格式
+    const defaultOutputFormat = document.getElementById('default-output')?.value || 'png';
+    
     // 选择保存路径
     const saveResult = await authlock.saveFile([
       {
         name: 'Images',
-        extensions: ['png']
+        extensions: [defaultOutputFormat]
       }
-    ], embedImagePath.replace(/\.[^/.]+$/, '') + '_watermarked.png');
+    ], embedImagePath.replace(/\.[^/.]+$/, '') + `_watermarked.${defaultOutputFormat}`);
     
     if (!saveResult.success || !saveResult.filePath) {
       return;
@@ -283,13 +286,16 @@ function bindEmbedEvents() {
       if (screenshotResult.success) {
         const screenshotPath = screenshotResult.filePath;
         
+        // 获取默认输出格式
+        const defaultOutputFormat = document.getElementById('default-output')?.value || 'png';
+        
         // 选择保存路径
         const saveResult = await authlock.saveFile([
           {
             name: 'Images',
-            extensions: ['png']
+            extensions: [defaultOutputFormat]
           }
-        ], screenshotPath.replace(/\.[^/.]+$/, '') + '_watermarked.png');
+        ], screenshotPath.replace(/\.[^/.]+$/, '') + `_watermarked.${defaultOutputFormat}`);
         
         if (!saveResult.success || !saveResult.filePath) {
           showEmbedStatus('保存失败', false);
@@ -327,7 +333,7 @@ function bindEmbedEvents() {
   function showEmbedStatus(message, isSuccess) {
     const statusContainer = document.getElementById('embed-status');
     const statusMessage = document.getElementById('embed-status-message');
-    const closeBtn = statusContainer.querySelector('.close-btn');
+    const closeBtn = statusContainer.querySelector('.status-close-btn');
     
     statusMessage.textContent = message;
     statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
@@ -452,45 +458,25 @@ function bindVerifyEvents() {
   
   // 显示验证状态
   function showVerifyStatus(message, isSuccess) {
-    // 确保验证结果区域存在
-    let statusContainer = document.getElementById('verify-status');
-    if (!statusContainer) {
-      // 创建状态容器
-      statusContainer = document.createElement('div');
-      statusContainer.id = 'verify-status';
-      statusContainer.className = 'status-card';
-      
-      // 创建状态标题
-      const statusTitle = document.createElement('h3');
-      statusTitle.className = 'status-title';
-      statusTitle.textContent = '操作状态';
-      statusContainer.appendChild(statusTitle);
-      
-      // 创建状态消息
-      const statusMessage = document.createElement('p');
-      statusMessage.id = 'verify-status-message';
-      statusMessage.className = 'status-text';
-      statusContainer.appendChild(statusMessage);
-      
-      // 创建关闭按钮
-      const closeBtn = document.createElement('button');
-      closeBtn.className = 'close-btn';
-      closeBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`;
-      closeBtn.addEventListener('click', () => {
-        statusContainer.classList.add('hidden');
-      });
-      statusContainer.appendChild(closeBtn);
-      
-      // 插入到验证区域
-      const verifySection = document.getElementById('verify-section');
-      const contentCard = verifySection.querySelector('.content-card');
-      contentCard.appendChild(statusContainer);
-    }
+    // 使用现有的状态容器
+    const statusContainer = document.getElementById('verify-status');
     
-    const statusMessage = document.getElementById('verify-status-message');
-    statusMessage.textContent = message;
-    statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
-    statusContainer.classList.remove('hidden');
+    // 确保状态容器存在
+    if (statusContainer) {
+      const statusMessage = document.getElementById('verify-status-message');
+      const closeBtn = statusContainer.querySelector('.status-close-btn');
+      
+      statusMessage.textContent = message;
+      statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
+      statusContainer.classList.remove('hidden');
+      
+      // 绑定关闭按钮事件
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          statusContainer.classList.add('hidden');
+        });
+      }
+    }
   }
   
   // 更新验证结果
@@ -651,7 +637,7 @@ function bindTemplateEvents() {
   function showTemplateStatus(message, isSuccess) {
     const statusContainer = document.getElementById('template-status');
     const statusMessage = document.getElementById('template-status-message');
-    const closeBtn = statusContainer.querySelector('.close-btn');
+    const closeBtn = statusContainer.querySelector('.status-close-btn');
     
     statusMessage.textContent = message;
     statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
@@ -813,8 +799,10 @@ function bindBatchEvents() {
       
       for (let i = 0; i < batchFiles.length; i++) {
         const inputPath = batchFiles[i];
+        // 获取默认输出格式
+        const defaultOutputFormat = document.getElementById('default-output')?.value || 'png';
         const fileName = path.basename(inputPath);
-        const outputPath = path.join(outputDir, fileName.replace(/\.[^/.]+$/, '') + '_watermarked.png');
+        const outputPath = path.join(outputDir, fileName.replace(/\.[^/.]+$/, '') + `_watermarked.${defaultOutputFormat}`);
         
         // 更新进度
         const progress = Math.round((i / batchFiles.length) * 100);
@@ -848,7 +836,7 @@ function bindBatchEvents() {
   function showBatchStatus(message, isSuccess) {
     const statusContainer = document.getElementById('batch-status');
     const statusMessage = document.getElementById('batch-status-message');
-    const closeBtn = statusContainer.querySelector('.close-btn');
+    const closeBtn = statusContainer.querySelector('.status-close-btn');
     
     statusMessage.textContent = message;
     statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
@@ -976,7 +964,7 @@ function bindSettingsEvents() {
   function showSettingsStatus(message, isSuccess) {
     const statusContainer = document.getElementById('settings-status');
     const statusMessage = document.getElementById('settings-status-message');
-    const closeBtn = statusContainer.querySelector('.close-btn');
+    const closeBtn = statusContainer.querySelector('.status-close-btn');
     
     statusMessage.textContent = message;
     statusMessage.style.color = isSuccess ? '#10b981' : '#ef4444';
