@@ -127,7 +127,7 @@
         <div class="md:w-1/2">
           <div class="relative">
             <div class="absolute -top-4 -left-4 w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl opacity-50"></div>
-            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=A%20professional%20software%20interface%20for%20copyright%20protection%20tool%20with%20dark%20theme%2C%20showing%20fingerprint%20embedding%20and%20verification%20features%2C%20modern%20UI%20design&image_size=landscape_16_9" alt="AuthLock 界面" class="relative z-10 rounded-2xl shadow-2xl w-full">
+            <img src="ui.png" alt="AuthLock 界面" class="relative z-10 rounded-2xl shadow-2xl w-full">
           </div>
         </div>
       </div>
@@ -169,7 +169,7 @@
         <!-- 功能卡片 3 -->
         <div class="card p-6">
           <div class="feature-icon">
-            <i class="fas fa-shield-alt text-white text-2xl"></i>
+            <i class="fas fa-shield text-white text-2xl"></i>
           </div>
           <h3 class="text-xl font-semibold mb-3">根哈希计算</h3>
           <p class="text-gray-400">
@@ -191,7 +191,7 @@
         <!-- 功能卡片 5 -->
         <div class="card p-6">
           <div class="feature-icon">
-            <i class="fas fa-batch-file text-white text-2xl"></i>
+            <i class="fas fa-boxes text-white text-2xl"></i>
           </div>
           <h3 class="text-xl font-semibold mb-3">批量处理</h3>
           <p class="text-gray-400">
@@ -253,7 +253,7 @@
         </div>
         <div class="card p-6 flex flex-col items-center text-center">
           <div class="text-4xl mb-4">
-            <i class="fab fa-electron text-blue-400"></i>
+            <i class="fas fa-code text-blue-400"></i>
           </div>
           <h3 class="text-lg font-semibold mb-2">Electron</h3>
           <p class="text-gray-400 text-sm">30.0.0</p>
@@ -327,6 +327,111 @@
     </div>
   </section>
 
+  <!-- 隐私政策 -->
+  <section id="privacy" class="section bg-gray-900">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">隐私政策</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          我们重视您的隐私，以下是 AuthLock 如何处理您的个人信息
+        </p>
+      </div>
+      <div class="card p-8 max-w-4xl mx-auto">
+        <div class="space-y-6 text-gray-300">
+          <div>
+            <h3 class="text-xl font-semibold mb-3">1. 数据收集</h3>
+            <p>AuthLock 是一款完全离线的应用程序，不会收集、存储或上传任何用户数据。所有处理均在本地完成，包括：</p>
+            <ul class="list-disc pl-6 mt-2 space-y-1">
+              <li>您输入的用户名仅用于生成水印，不会被存储或上传</li>
+              <li>处理的图片文件仅在本地内存中临时使用，不会被保存</li>
+              <li>生成的指纹信息仅嵌入到图片中，不会被单独存储</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-3">2. 数据存储</h3>
+            <p>AuthLock 仅在本地存储必要的配置信息，包括：</p>
+            <ul class="list-disc pl-6 mt-2 space-y-1">
+              <li>应用程序设置和首选项</li>
+              <li>用户上次使用时间（仅用于显示欢迎信息）</li>
+            </ul>
+            <p class="mt-2">这些数据仅存储在您的本地设备上，不会被传输到任何服务器。</p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-3">3. 第三方服务</h3>
+            <p>AuthLock 不使用任何第三方服务来收集或处理用户数据。应用程序完全独立运行，不需要互联网连接。</p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-3">4. 隐私保护</h3>
+            <p>我们致力于保护您的隐私，采取以下措施：</p>
+            <ul class="list-disc pl-6 mt-2 space-y-1">
+              <li>所有处理均在本地完成，不上传任何数据</li>
+              <li>不收集任何个人信息或使用数据</li>
+              <li>不跟踪用户行为或分析使用模式</li>
+              <li>不发送任何形式的通知或广告</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-3">5. 隐私政策变更</h3>
+            <p>我们可能会不时更新本隐私政策。任何变更都会在应用程序更新时通知您，并且新的隐私政策将适用于更新后的版本。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 使用条款 -->
+  <section id="terms" class="section">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">使用条款</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          使用 AuthLock 即表示您同意以下条款和条件
+        </p>
+      </div>
+      <div class="card p-8 max-w-4xl mx-auto">
+        <div class="space-y-6 text-gray-300">
+          <div>
+            <h3 class="text-xl font-semibold mb-3">1. 许可使用</h3>
+            <p>AuthLock 是一款开源软件，根据 MIT 许可证发布。您可以：</p>
+            <ul class="list-disc pl-6 mt-2 space-y-1">
+              <li>自由使用、复制、修改和分发软件</li>
+              <li>将软件用于个人和商业目的</li>
+              <li>在修改后的版本中保留原始许可证和版权声明</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-3">2. 责任限制</h3>
+            <p>AuthLock 按"原样"提供，不提供任何形式的保证，包括但不限于：</p>
+            <ul class="list-disc pl-6 mt-2 space-y-1">
+              <li>适销性保证</li>
+              <li>特定用途适用性保证</li>
+              <li>非侵权保证</li>
+            </ul>
+            <p class="mt-2">在任何情况下，作者或版权持有人均不对因使用或无法使用本软件而导致的任何直接、间接、偶然、特殊、惩戒性或 consequential 损害承担责任。</p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-3">3. 使用限制</h3>
+            <p>您同意不将 AuthLock 用于以下目的：</p>
+            <ul class="list-disc pl-6 mt-2 space-y-1">
+              <li>侵犯他人版权或知识产权</li>
+              <li>制作或分发恶意软件</li>
+              <li>违反任何适用的法律法规</li>
+              <li>损害或干扰他人的计算机系统</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-3">4. 知识产权</h3>
+            <p>AuthLock 的源代码和相关资产受版权保护。您可以根据 MIT 许可证的条款使用和修改软件，但不得声称对原始软件拥有所有权。</p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-3">5. 条款变更</h3>
+            <p>我们可能会不时更新这些使用条款。任何变更都会在应用程序更新时通知您，并且新的使用条款将适用于更新后的版本。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 页脚 -->
   <footer class="bg-gray-900 border-t border-gray-800 py-12">
     <div class="container mx-auto px-4">
@@ -360,16 +465,17 @@
           <div>
             <h4 class="text-lg font-semibold mb-4">法律</h4>
             <ul class="space-y-2">
-              <li><a href="../LICENSE" class="text-gray-400 hover:text-white transition-colors">许可证</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white transition-colors">隐私政策</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white transition-colors">使用条款</a></li>
+              <li><a href="https://mit-license.org/" target="_blank" class="text-gray-400 hover:text-white transition-colors">许可证</a></li>
+              <li><a href="#privacy" class="text-gray-400 hover:text-white transition-colors">隐私政策</a></li>
+              <li><a href="#terms" class="text-gray-400 hover:text-white transition-colors">使用条款</a></li>
             </ul>
           </div>
         </div>
       </div>
       <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
-        <p>© 2026 AuthLock. 保留所有权利。</p>
-        <p class="mt-2">联系我们：<a href="mailto:geekline66@gamil.com" class="text-gray-400 hover:text-white transition-colors">geekline66@gamil.com</a></p>
+        <p>© 2026 Geekline. 保留所有权利。</p>
+        <p class="mt-2">官网：<a href="https://geekline.pages.dev" target="_blank" class="text-gray-400 hover:text-white transition-colors">geekline.pages.dev</a></p>
+        <p class="mt-1">联系我们：<a href="mailto:geekline66@gamil.com" class="text-gray-400 hover:text-white transition-colors">geekline66@gamil.com</a></p>
       </div>
     </div>
   </footer>
