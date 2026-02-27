@@ -1,6 +1,6 @@
 {
   "name": "authlock",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Windows 离线版权隐形指纹保护工具",
   "main": "src/main.js",
   "scripts": {
