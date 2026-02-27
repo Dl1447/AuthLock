@@ -6,11 +6,11 @@ const { DesktopCapturer, sources } = desktopCapturer;
 // 全局变量用于存储屏幕截图
 let globalScreenScreenshot = null;
 
-const appDataPath = path.join(__dirname, '..', 'appData');
+// 使用用户数据目录作为appData路径
+const appDataPath = app.getPath('userData');
 if (!fs.existsSync(appDataPath)) {
   fs.mkdirSync(appDataPath, { recursive: true });
 }
-app.setPath('userData', appDataPath);
 
 const { embedFingerprint, extractFingerprint, verifyFingerprint } = require('../core/lsb');
 const { calculateFileHash } = require('../core/hasher');
