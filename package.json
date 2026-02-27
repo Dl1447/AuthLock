@@ -1,0 +1,41 @@
+{
+  "name": "authlock",
+  "version": "1.2.0",
+  "description": "Windows 离线版权隐形指纹保护工具",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "build": "electron-builder"
+  },
+  "keywords": [
+    "electron",
+    "copyright",
+    "watermark",
+    "steganography",
+    "lsb"
+  ],
+  "author": "Geekline",
+  "license": "MIT",
+  "dependencies": {
+    "sharp": "^0.33.4"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.geekline.authlock",
+    "productName": "AuthLock",
+    "publish": [
+      {
+        "provider": "github",
+        "releaseType": "release"
+      }
+    ],
+    "win": {
+      "target": ["nsis", "portable"],
+      "icon": "assets/logo.ico"
+    }
+  }
+}
