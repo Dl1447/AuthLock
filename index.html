@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuthLock - 版权隐形指纹保护工具</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      scroll-behavior: smooth;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #64748b, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .feature-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .hero-section {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      min-height: 100vh;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #64748b, #94a3b8);
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(100, 116, 139, 0.4);
+    }
+    .btn-secondary {
+      transition: all 0.3s ease;
+    }
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <!-- 导航栏 -->
+  <nav class="bg-white shadow-md fixed w-full z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <img src="assets/logo.ico" alt="AuthLock Logo" class="h-10 w-10 rounded-lg">
+        <span class="text-xl font-bold gradient-text">AuthLock</span>
+      </div>
+      <div class="hidden md:flex space-x-8">
+        <a href="#features" class="text-gray-700 hover:text-gray-900 font-medium">功能特性</a>
+        <a href="#technology" class="text-gray-700 hover:text-gray-900 font-medium">技术特点</a>
+        <a href="#usage" class="text-gray-700 hover:text-gray-900 font-medium">使用方法</a>
+        <a href="#download" class="text-gray-700 hover:text-gray-900 font-medium">下载</a>
+        <a href="#support" class="text-gray-700 hover:text-gray-900 font-medium">支持</a>
+      </div>
+      <div class="md:hidden">
+        <button class="text-gray-700 hover:text-gray-900">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 英雄区域 -->
+  <section class="hero-section flex items-center justify-center">
+    <div class="container mx-auto px-4 py-20 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+        <span class="gradient-text">Edit freely, credit stays.</span>
