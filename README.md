@@ -97,7 +97,9 @@ AuthLock/
 ### 支持我们
 如果您觉得这个项目对您有帮助，欢迎通过以下方式支持我们：
 
-[爱发电支持链接](https://ifdian.net/a/yourusername)
+![爱发电](ifdian.jpg)
+
+[爱发电支持链接](https://ifdian.net/a/Geekline)
 
 ### 许可证
 MIT License
